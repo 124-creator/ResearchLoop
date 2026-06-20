@@ -1,111 +1,97 @@
-# ResearchLoop V4 · Multi-Agent Research Workflow
+# ResearchLoop V4 · Multi-Agent Workflow Governance
 
-> **双 Loop 多智能体科研 / 工程协作工作流**：把模糊目标冻结成结构化 Spec，再通过证据分级、路线裁决、Test Oracle、Worktree Check、过程复盘和终检，把 Claude / Codex / GPT-Pro 等 Agent 的协作变成可审计、可回滚、可验收的交付链。
->
-> A dual-loop multi-agent workflow for research and engineering: freeze ambiguous goals into structured specs, then deliver through evidence grading, route arbitration, test oracles, worktree checks, retrospectives, and independent review.
+[Live Demo](https://124-creator.github.io/ResearchLoop/) · [V4 Protocol](./docs/v4/000-dual-loop-controller-v4.md) · [Plan Template](./templates/v4-plan-template.md) · [MIT License](./LICENSE)
 
-**Live V4 workflow demo:** https://124-creator.github.io/ResearchLoop/<br>
-**Start here:** [V4 workflow demo](./apps/researchloop.html) · [V4 controller](./docs/v4/000-dual-loop-controller-v4.md) · [Spec example](./examples/010-problem-definition-example.md)
+ResearchLoop V4 is a dual-loop workflow for AI-agent work that must be correct, reviewable, and reproducible. It turns an ambiguous request into gated artifacts: problem definition, risk map, evidence baseline, route comparison, independent review, executable plan, worktree check, tests, and final acceptance.
 
-![ResearchLoop V4 flowchart](./assets/researchloop-v4-flowchart.png)
+中文简介：ResearchLoop V4 是一套面向 AI Agent 工程与科研协作的工作流方法。它不是单一提示词，而是把需求确认、风险地图、证据链、独立审查、执行隔离与验收门组织成可复用的公开项目。
 
-## Why ResearchLoop
+## Preview
 
-单独使用 AI 编程工具时，常见问题不是“不会生成代码”，而是：
+![ResearchLoop V4 demo preview](./assets/researchloop-demo-preview.png)
 
-- **目标模糊**：成功标准、硬约束和不做什么没有冻结。
-- **路线漂移**：Agent 很容易在执行中暗改方向或范围。
-- **证据混杂**：官方文档、GitHub Star、论坛经验和个人猜测被混成同一可信度。
-- **验收困难**：没有 Test Oracle，最后只能靠“看起来差不多”。
-- **协作断层**：规划、执行、复盘、审查之间没有统一文件总线。
+## Live Demo
 
-ResearchLoop V4 的目标是：**先做对的事，再把事做对。**
+Open: https://124-creator.github.io/ResearchLoop/
 
-## Core architecture
+The demo is a static, privacy-safe page. It runs fully in the browser and does not upload text or call external APIs.
 
-```text
-Loop 1 · 方案层（做对的事）
-010 问题定义 / FROZEN
--> 012 难题风险地图
--> 015 调研基线与证据分级 A/B/C/D
--> 020 候选路线
--> 030 独立对抗评审
--> 035 路线裁决
--> 040 Spike A/B/C 验证
+## Why it matters
 
-Loop 2 · 协同交付层（把事做对）
-调研台账
--> plan + Test Oracle + PLAN AUDIT
--> G2 approved
--> INSTRUCTION LOAD CHECK
--> WORKTREE CHECK
--> Codex 执行 + 测试 + 过程复盘
--> Claude Code 终检 + 反证搜索
--> G3 verified
-```
+Most agent failures are not just model failures. They come from unclear goals, hidden risk, missing evidence, no reviewer, and no stop condition. ResearchLoop V4 makes these failure modes visible before execution.
 
-## Human gates
+## What makes it different
 
-| Gate | Meaning | Checks |
-|---|---|---|
-| **G1 · 方向门** | 做对的事、走对的路 | 问题定义、成功标准、路线裁决、BLOCKER 处置 |
-| **G2 · 执行门** | 这份计划能否安全执行 | PLAN AUDIT、Test Oracle、产物清单、隔离、回滚、外部写权限 |
-| **G3 · 验收门** | 交付是否真的正确 | 新鲜测试证据、终检、反证搜索、规格符合性 |
+| Ordinary agent prompt | ResearchLoop V4 |
+| --- | --- |
+| Starts implementing while the problem is still moving. | Routes the task by uncertainty, risk, and file scope before touching files. |
+| Keeps assumptions, code, and review in one chat thread. | Produces traceable artifacts from 010 to 040 and from WORKTREE CHECK to G3. |
+| Has weak rollback and unclear evidence. | Requires a Test Oracle, evidence IDs, and a retrospective. |
+| Hard to explain in an interview. | Provides an interactive demo, templates, and public docs. |
 
-状态流：
+## Interactive Demo includes
 
-```text
-draft -> approved -> implemented -> verified
-```
+- Task Lab: turn a messy request into a first 010 problem packet.
+- Flow Playback: click each Loop 1 and Loop 2 step to see owner, gate, and artifact.
+- Gate Simulator: see how draft, approved, implemented, and verified states depend on evidence.
+- Evidence Ledger: sample trace IDs for review, implementation, tests, and acceptance.
+- Case Study Replay: examples for modeling, research-agent pipelines, and portfolio delivery.
+- Prompt Kit: copy starter prompts for problem definition, independent review, and execution.
+
+## Quick Start
+
+1. Open the live demo.
+2. Inspect the protocol: ./docs/v4/000-dual-loop-controller-v4.md
+3. Use the templates: ./templates/v4-plan-template.md and ./templates/v4-retrospective-block-template.md
+4. Read the executor contract: ./AGENTS.md
+5. Run the page locally by opening ./apps/researchloop.html in a browser.
+
+## Protocol map
+
+### Loop 1 · 方案层：做对的事
+
+- 010 Problem Definition: goal, non-goals, privacy boundary, acceptance criteria.
+- 012 Risk Map: uncertainty, external writes, rollback, data sensitivity.
+- 015 Evidence Baseline: facts, prior failures, references, confidence grade.
+- 020 Candidate Routes: compare R1/R2/R3 instead of jumping to implementation.
+- 030 Independent Review: BLOCKER, RISK, or PASS.
+- 035 Route Decision: lock route, deliverable manifest, rejected alternatives.
+- 040 Test Oracle: define the smallest checks that prove completion.
+
+### Loop 2 · 协同交付层：把事做对
+
+- Repo exploration and instruction load check.
+- Draft plan, plan audit, and G2 execution gate.
+- WORKTREE CHECK before modifying files.
+- Bounded implementation, tests, and evidence capture.
+- Final review and G3 human acceptance.
+
+State chain: draft → approved → implemented → verified.
 
 ## Repository map
 
-```text
-.
-├── AGENTS.md                                  # Codex / executor contract
-├── CLAUDE.md                                  # Claude Code / reviewer contract
-├── apps/
-│   └── researchloop.html                      # ResearchLoop HTML prototype
-├── assets/
-│   └── researchloop-v4-flowchart.png          # V4 workflow diagram
-├── docs/
-│   ├── architecture.md                        # Architecture notes
-│   ├── v4/
-│   │   ├── README.md
-│   │   ├── 000-dual-loop-controller-v4.md
-│   │   ├── 010-claude-code-reviewer-v4.md
-│   │   └── 020-codex-executor-v4.md
-│   └── retrospectives/
-├── examples/
-│   ├── 010-problem-definition-example.md
-│   ├── example-plan.md
-│   └── example-retrospective.md
-└── templates/
-    ├── plan-template.md
-    ├── retrospective-template.md
-    ├── v4-plan-template.md
-    └── v4-retrospective-block-template.md
-```
+~~~text
+ResearchLoop/
+├─ apps/                      Static interactive demo
+├─ assets/                    Flowchart and preview image
+├─ docs/v4/                   V4 protocol source of truth
+├─ examples/                  Example workflow artifacts
+├─ templates/                 Plan and retrospective templates
+├─ AGENTS.md                  Executor contract
+├─ DESIGN.md                  Design source of truth for the demo
+└─ README.md                  Repository landing page
+~~~
 
-## Quick start
+## Privacy Boundary
 
-1. Start with the [ResearchLoop HTML prototype](./apps/researchloop.html), or copy [`examples/010-problem-definition-example.md`](./examples/010-problem-definition-example.md).
-2. Freeze the task as `010-问题定义.md` before implementation.
-3. For complex tasks, follow [`docs/v4/000-dual-loop-controller-v4.md`](./docs/v4/000-dual-loop-controller-v4.md).
-4. Let the reviewer prepare a plan with [`templates/v4-plan-template.md`](./templates/v4-plan-template.md).
-5. Let the executor implement only after G2 approved, then append retrospective blocks with [`templates/v4-retrospective-block-template.md`](./templates/v4-retrospective-block-template.md).
-6. Do not mark work `verified` until independent review and G3 acceptance.
+This public repository should not contain private datasets, credentials, personal contact information, local absolute paths, or active competition submission packages. The demo is designed as a portfolio-safe explanation of the workflow, not as a backend service.
 
-## Battle-tested use cases
+## Status
 
-This workflow has been used across competition and research projects:
-
-| Project type | Scale | Workflow evidence |
-|---|---:|---|
-| Mathematical modeling competition | 74 hours, 4 modeling questions + paper | 20+ retrospectives, formula checks, external review |
-| Carbon price forecasting research | 19 staged experiments | train/dev/test protocol, leakage audit, model comparison |
-| Machine-learning decision platform | 12-step data-to-platform pipeline | step retrospectives, SHAP review, platform refactor |
+- Current focus: V4 public demo and workflow documentation.
+- Deployment target: GitHub Pages.
+- Verification style: local browser check, old-term scan, sensitive-info scan, live page HTTP check, and screenshot preview.
 
 ## License
 
-[MIT](./LICENSE) © 2026 田中斐 (Tian Zhongfei)
+MIT License.
