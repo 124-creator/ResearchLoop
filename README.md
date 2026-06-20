@@ -4,7 +4,7 @@
 >
 > A dual-loop multi-agent workflow for research and engineering: freeze ambiguous goals into structured specs, then deliver through evidence grading, route arbitration, test oracles, worktree checks, retrospectives, and independent review.
 
-![ResearchLoop V4 flowchart](./assets/researchloop-v4-flowchart.jpg)
+![ResearchLoop V4 flowchart](./assets/researchloop-v4-flowchart.png)
 
 ## Why ResearchLoop
 
@@ -106,3 +106,4 @@ This workflow has been used across competition and research projects:
 ## License
 
 [MIT](./LICENSE) © 2026 田中斐 (Tian Zhongfei)
+
