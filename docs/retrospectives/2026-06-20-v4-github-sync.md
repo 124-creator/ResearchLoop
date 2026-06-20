@@ -13,7 +13,7 @@
 | File / directory | Purpose |
 |---|---|
 | `docs/v4/` | V4 controller, reviewer, and executor instructions |
-| `assets/researchloop-v4-flowchart.jpg` | Public workflow diagram |
+| `assets/researchloop-v4-flowchart.png` | Public workflow diagram |
 | `apps/researchloop.html` | Spec generator prototype |
 | `README.md` | GitHub landing page updated for ResearchLoop V4 |
 | `AGENTS.md` / `CLAUDE.md` | Concise V4 executor/reviewer contracts |
@@ -29,4 +29,4 @@
 
 ## 4. Notes
 
-This sync updates the repository from the earlier dual-contract / four-stage loop to ResearchLoop V4: dual-loop, evidence-graded, gated, and productized.
+This sync presents the repository directly as ResearchLoop V4: a dual-loop, evidence-graded, gated, and productized workflow for research and engineering delivery.
