@@ -1,129 +1,111 @@
-# Design
+﻿# Design
 
 ## Source of truth
-
 - Status: Active
 - Last refreshed: 2026-06-20
-- Primary product surfaces: apps/researchloop.html, README.md, assets/researchloop-v4-flowchart.png, assets/researchloop-demo-preview.png.
-- Protocol source of truth: docs/v4/000-dual-loop-controller-v4.md, docs/v4/010-claude-code-reviewer-v4.md, docs/v4/020-codex-executor-v4.md.
-- Current design target: ResearchLoop V4.1 中文双循环动态控制台。
+- Primary product surfaces: `index.html`, `apps/researchloop.html`, `apps/index.html`, `README.md`, `assets/researchloop-v4-flowchart.png`, `assets/researchloop-demo-preview.png`.
+- Protocol source of truth: `docs/v4/000-dual-loop-controller-v4.md`, `docs/v4/010-claude-code-reviewer-v4.md`, `docs/v4/020-codex-executor-v4.md`.
 - Evidence reviewed:
-  - The previous V4 page already had premium cards and basic interactions.
-  - User clarified the core concept: Loop 1 is GPT-Pro producing/fixing plans while Claude independently reviews and gives modification advice; Loop 2 is Claude producing/reviewing plans while Codex executes, tests, and writes retrospectives.
-  - The page must make these two loops visually and interactively obvious.
+  - The three `docs/v4` protocol files are byte-for-byte identical to the local updated prompt directory.
+  - The previous Demo visually showed two loops but compressed Loop 1 into `010/030/035/040` and compressed Loop 2 into `PLAN/EXEC/RETRO/REVIEW`; it did not strictly expose `012/015/020`, `INSTRUCTION LOAD CHECK`, `WORKTREE CHECK`, `PLAN AUDIT`, or the `NNN`同号交付链.
+  - User requirement: Chinese-first, GitHub portfolio quality, dynamic gradients, clickable state changes, and explicit per-step deliverables.
 
 ## Brand
-
-- Personality: serious, frontier, audit-grade, calm under uncertainty, engineering-trustworthy.
-- Trust signals: explicit role separation, independent review, feedback repair, execution isolation, retrospective report, evidence IDs, state machine.
-- Avoid: generic process diagram, toy chatbot aesthetic, fake automation metrics, overclaiming real LLM execution in a static page, stale unrelated demo wording.
+- Personality: frontier, audit-grade, evidence-led, calm under uncertainty, suitable for AI Agent internship portfolio review.
+- Trust signals: strict source mapping, named handoff files, role separation, evidence IDs, hard gates, no real API calls, no private data.
+- Avoid: generic chatbot demo, single-color flat flowchart, vague “AI collaboration” claims, hidden deliverables, implying a static page performs real LLM execution.
 
 ## Product goals
-
 - Goals:
-  - Within 10 seconds, show that ResearchLoop is a two-loop multi-agent governance system.
-  - Make GPT-Pro, Claude, and Codex roles visually distinct.
-  - Let visitors click nodes, step through the loop, and auto-play the cycle.
-  - Make the workflow suitable for AI Agent internship portfolio review.
+  - Within 10 seconds, show that ResearchLoop is a **two-loop governance system**, not a prompt collection.
+  - Make Loop 1 clearly read as “方案脑暴 / 路线校验层（做对的事）”.
+  - Make Loop 2 clearly read as “协同交付 / 执行验证层（把事做对）”.
+  - Every node must show current action, handoff artifact, evidence, next step, and why failure loops back.
 - Non-goals:
-  - Do not call real LLM APIs.
-  - Do not upload or collect user input.
-  - Do not claim static simulation equals final human G3 acceptance.
+  - No backend execution, no LLM API calls, no data upload.
+  - No private local paths or personal information in public files.
+  - No claim that `implemented` equals `verified`.
 - Success signals:
-  - Clicking nodes changes active agent, action, artifact, evidence, and prompt.
-  - Auto-play visibly moves through Loop 1, Loop 2, G3, and back to the next round.
-  - The Chinese UI clearly explains both loops without reading the docs.
+  - Demo contains visible nodes for `010/012/015/020/030/035/040`.
+  - Demo contains visible nodes for `CC-R/LOAD/PLAN/G2/WORKTREE/CODEX/RETRO/CC-V/G3`.
+  - Clicking nodes updates details, evidence, prompt, and state chain.
+  - README explains the workflow using GitHub-friendly preview, quick mechanism, and repo map.
 
 ## Personas and jobs
-
-- Primary personas: AI Agent / LLM engineering recruiter, technical interviewer, teammate who wants to reuse the workflow.
-- User jobs: understand the two loops, inspect role responsibilities, see feedback repair, copy prompts, verify public safety.
-- Key contexts of use: GitHub Pages, resume link click, interview screen share, mobile quick scan.
+- Primary personas: AI Agent/LLM internship recruiter, technical interviewer, future teammate, GitHub visitor.
+- User jobs: quickly understand the workflow, inspect role boundaries, verify deliverables, copy a starting prompt, see why loops reduce risk.
+- Key contexts of use: GitHub Pages link in resume, GitHub README scan, interview screen share, mobile quick view.
 
 ## Information architecture
-
-- Primary navigation: 双循环、演示、证据链、提示词、完整图、GitHub.
-- Core route: one-page static app at /ResearchLoop/ with source HTML at apps/researchloop.html.
+- Primary navigation: 为什么循环, 动态双循环, 010 输入包, 证据链, 提示词, 完整图, GitHub.
+- Core routes/screens:
+  - `/` and `/apps/` static pages.
+  - `apps/researchloop.html` source page.
 - Content hierarchy:
-  1. Hero: GPT-Pro × Claude × Codex two-loop value proposition.
-  2. Dual-loop control room: clickable and auto-play core visualization.
-  3. Detail cockpit: current agent, action, artifact, review signal, next step.
-  4. Evidence and prompt linkage.
-  5. Full V4 flowchart and repo call-to-action.
+  1. Hero: strict V4 dual-loop value proposition.
+  2. Why loops: direction risk vs execution drift.
+  3. Dynamic control room: clickable protocol nodes.
+  4. Linked evidence/prompt panels.
+  5. 010 Packet Lab.
+  6. Full V4 flowchart and GitHub CTA.
 
 ## Design principles
-
-- Principle 1: The loop is the product. The central visualization must be a dynamic two-loop system, not a decorative image.
-- Principle 2: Every click should change meaning. Node selection must update details, evidence, prompts, and status.
-- Tradeoffs: Preserve static hosting and no-build simplicity over framework complexity.
+- Principle 1: The loop is the product; animation must explain feedback, not decorate.
+- Principle 2: A node is incomplete unless it names a file artifact.
+- Principle 3: Evidence beats assertions; use IDs and handoff files everywhere.
+- Tradeoffs: Keep a no-build static HTML implementation for GitHub Pages reliability instead of adding a framework.
 
 ## Visual language
-
-- Color:
-  - Deep ocean navy background: #07111f and #0f1d33.
-  - Electric cyan for Loop 1 reasoning/plan repair: #2dd4ff.
-  - Intelligent violet for Loop 2 execution/review: #8b5cf6.
-  - Amber for review advice and risk: #f59e0b.
-  - Emerald for pass/ready/G3 candidate: #10b981.
-  - Red only for BLOCKER: #ef4444.
-- Typography: system sans with Chinese-first readability; monospace for evidence IDs and prompt snippets.
-- Spacing/layout rhythm: control-room density with large hero, 12-column responsive cards, 16/24/32px spacing.
-- Shape/radius/elevation: rounded glass panels, orbital nodes, soft glow, high-contrast dark surfaces.
-- Motion: flowing arrow accents, active node glow, auto-play pulse, reduced-motion respect.
-- Imagery/iconography: CSS-native loop nodes plus existing flowchart image.
+- Color: dark navy base with cyan for Loop 1 reasoning, violet for Claude/plan review, emerald for Codex/execution success, amber/red for risk/BLOCKER.
+- Typography: system sans for Chinese readability; monospace for file names, evidence IDs, and prompt snippets.
+- Spacing/layout rhythm: dense control-room cards, 12-18px card gaps, large hero with readable sections.
+- Shape/radius/elevation: glass panels, rounded cards, glowing active nodes, gradient hero.
+- Motion: animated gradient background, active-node pulse, auto-play step transitions; respect `prefers-reduced-motion`.
+- Imagery/iconography: CSS loop mark plus existing full V4 flowchart image.
 
 ## Components
-
-- Existing components to reuse: assets/researchloop-v4-flowchart.png.
+- Existing components to reuse: V4 flowchart image, README preview image, static HTML control room.
 - New/changed components:
-  - Dual-loop orbital control room.
-  - Auto-play and next-step controller.
-  - Active step cockpit.
-  - Review signal meter.
-  - Evidence ledger linked to active node.
-  - Prompt panel linked to active node.
-  - Round state strip showing draft → reviewed → fixed → planned → implemented → reviewed → G3 → next round.
-- Variants and states: active/inactive node, Loop 1/Loop 2, BLOCKER/RISK/PASS, idle/playing, copied prompt.
-- Token/component ownership: inline CSS variables in apps/researchloop.html.
+  - “为什么必须循环” section.
+  - Strict 010-040 node list.
+  - Strict Loop2 handoff chain nodes.
+  - Node detail panel with “当前交接物” and “交接/回环理由”.
+  - Expanded 010 Packet Lab output.
+- Variants and states: draft, risk, blocker, pass, hard gate, implemented, G3 candidate, verified.
+- Token/component ownership: inline CSS variables in `apps/researchloop.html`; root/app entry files are generated copies.
 
 ## Accessibility
-
 - Target standard: practical WCAG 2.1 AA.
-- Keyboard/focus behavior: all nodes are native buttons with focus-visible states.
-- Contrast/readability: dark background with bright but controlled text contrast.
-- Screen-reader semantics: headings, buttons, aria-live for active state.
-- Reduced motion and sensory considerations: stop transitions under prefers-reduced-motion.
+- Keyboard/focus behavior: nodes and controls are native buttons/links.
+- Contrast/readability: dark surfaces with high-contrast text and non-color text labels for states.
+- Screen-reader semantics: headings, `aria-live` cockpit, descriptive alt text for the flowchart.
+- Reduced motion and sensory considerations: media query disables animation and transitions.
 
 ## Responsive behavior
-
-- Desktop: central dual-loop visual with right cockpit and lower linked panels.
-- Tablet: two-column cards collapse after cockpit.
-- Mobile: single-column nodes grouped by loop; auto-play remains usable.
-- Touch/hover differences: all hover-only affordances also appear as labels.
+- Supported breakpoints/devices: desktop, tablet, mobile browser.
+- Layout adaptations: desktop uses control room + cockpit; tablet/mobile collapse to single column.
+- Touch/hover differences: all information appears in labels and panels, not hover-only.
 
 ## Interaction states
-
-- Loading: static page, no loading spinner needed.
-- Empty: default active step is Loop 1 / GPT-Pro 方案草案.
-- Error: clipboard copy failure falls back to visible button state.
-- Success: copied prompt shows 已复制; pass states use emerald glow.
-- Disabled: no disabled hidden controls; use explanatory text.
-- Offline/slow network: static content remains useful after assets load.
+- Loading: static page; default active node is `010`.
+- Empty: Packet Lab has a sample task.
+- Error: clipboard failure changes copy button to manual-copy hint.
+- Success: copy button briefly changes to `已复制`.
+- Disabled: no hidden disabled controls.
+- Offline/slow network: all text works offline after assets load.
 
 ## Content voice
-
-- Tone: Chinese-first, precise, evidence-led, confident but not exaggerated.
-- Terminology: ResearchLoop V4.1、方案校验循环、执行验证循环、独立检验、修改意见、执行计划、复盘报告、证据链、G3 验收.
-- Microcopy rules: clearly state this is a static simulation; do not imply real execution without evidence.
+- Tone: Chinese-first, precise, evidence-led, interview-ready.
+- Terminology: ResearchLoop V4, Loop 1 方案脑暴 / 路线校验层, Loop 2 协同交付 / 执行验证层, 010-040, G1/G2/G3, Test Oracle, PLAN AUDIT, WORKTREE CHECK, CC-R/CX-R/CC-V.
+- Microcopy rules: every workflow claim should name an artifact or evidence ID; avoid vague “智能协作” phrasing.
 
 ## Implementation constraints
-
 - Framework/styling system: single static HTML/CSS/JS file, no npm build required.
 - Design-token constraints: CSS variables at top of HTML.
-- Performance constraints: no external fonts/scripts; use existing flowchart and generated preview only.
-- Compatibility constraints: modern Chrome/Edge/Safari/Firefox; GitHub Pages root deployment rewrites relative paths.
-- Test/screenshot expectations: Playwright local and live checks, old-term scan, sensitive scan, screenshot preview.
+- Performance constraints: no external fonts/scripts; only local image assets.
+- Compatibility constraints: GitHub Pages, modern Chrome/Edge/Safari/Firefox.
+- Test/screenshot expectations: protocol keyword scan, mojibake scan, sensitive-info scan, local browser smoke test, screenshot refresh.
 
 ## Open questions
-
-- [ ] Future version may add a real backend executor; owner: Tian Zhongfei; impact: would need privacy policy and authentication.
+- [ ] If future GitHub Pages source folder changes, confirm whether `/`, `/apps/`, or GitHub Actions artifact is authoritative.
+- [ ] Consider adding a short animated GIF preview if the README needs higher click-through later.
