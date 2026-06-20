@@ -9,6 +9,7 @@
   - The three `docs/v4` protocol files are byte-for-byte identical to the local updated prompt directory.
   - The previous Demo visually showed two loops but compressed Loop 1 into `010/030/035/040` and compressed Loop 2 into `PLAN/EXEC/RETRO/REVIEW`; it did not strictly expose `012/015/020`, `INSTRUCTION LOAD CHECK`, `WORKTREE CHECK`, `PLAN AUDIT`, or the `NNN`同号交付链.
   - User requirement: Chinese-first, GitHub portfolio quality, dynamic gradients, clickable state changes, and explicit per-step deliverables.
+  - 2026-06-20 premium polish added a hero orbit visual, aurora background, glass-card highlights, and a responsive seven-state chain without changing protocol semantics.
 
 ## Brand
 - Personality: frontier, audit-grade, evidence-led, calm under uncertainty, suitable for AI Agent internship portfolio review.
@@ -61,6 +62,7 @@
 - Spacing/layout rhythm: dense control-room cards, 12-18px card gaps, large hero with readable sections.
 - Shape/radius/elevation: glass panels, rounded cards, glowing active nodes, gradient hero.
 - Motion: animated gradient background, active-node pulse, auto-play step transitions; respect `prefers-reduced-motion`.
+- Hero visual: dual crossing orbit rings with chips for `010-040`, Claude 证伪, Plan/Test, Codex 复盘 to make the two loops visible before scrolling.
 - Imagery/iconography: CSS loop mark plus existing full V4 flowchart image.
 
 ## Components
