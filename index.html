@@ -242,11 +242,208 @@
 
     .pulse { animation:pulse 1.4s ease-in-out infinite; }
     @keyframes pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(45,212,255,.34), var(--shadow-cyan);} 50%{ box-shadow:0 0 0 10px rgba(45,212,255,0), var(--shadow-cyan);} }
+
+    /* Premium visual polish layer */
+    body::after {
+      content:"";
+      position:fixed;
+      inset:-24%;
+      pointer-events:none;
+      z-index:-2;
+      background:
+        conic-gradient(from 120deg at 50% 50%, rgba(45,212,255,.12), rgba(139,92,246,.14), rgba(245,158,11,.06), rgba(16,185,129,.08), rgba(45,212,255,.12));
+      filter:blur(76px);
+      opacity:.64;
+      animation:aurora 22s linear infinite;
+    }
+    @keyframes aurora { to { transform:rotate(360deg); } }
+    .topbar { background:linear-gradient(180deg, rgba(5,11,24,.84), rgba(5,11,24,.56)); }
+    .mark { animation:markGlow 5.2s ease-in-out infinite; }
+    @keyframes markGlow { 0%,100%{ filter:hue-rotate(0deg); } 50%{ filter:hue-rotate(34deg) brightness(1.12); } }
+    .hero { position:relative; padding:88px 0 42px; }
+    .hero::before {
+      content:"";
+      position:absolute;
+      inset:18px auto auto 50%;
+      width:min(760px, 68vw);
+      height:260px;
+      transform:translateX(-50%);
+      pointer-events:none;
+      background:radial-gradient(ellipse, rgba(45,212,255,.18), transparent 68%);
+      filter:blur(22px);
+      opacity:.72;
+    }
+    .hero-grid { position:relative; z-index:1; }
+    .eyebrow { box-shadow:0 0 0 1px rgba(45,212,255,.08), 0 0 38px rgba(45,212,255,.18); }
+    h1 { text-shadow:0 18px 70px rgba(45,212,255,.16); }
+    .gradient-text { background:linear-gradient(96deg, #2dd4ff 0%, #60a5fa 28%, #a78bfa 58%, #f8fbff 92%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .role-card, .summary-card, .loop-card, .cockpit, .linked-panel, .lab-card, .repo-strip {
+      box-shadow:0 20px 80px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .role-card {
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.035)),
+        radial-gradient(circle at 15% 0, rgba(45,212,255,.12), transparent 36%);
+      transition:transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .role-card:hover { transform:translateY(-4px); border-color:rgba(45,212,255,.34); }
+    .hero-panel {
+      position:relative;
+      overflow:hidden;
+      padding:22px;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(45,212,255,.18), transparent 32%),
+        radial-gradient(circle at 92% 20%, rgba(139,92,246,.18), transparent 34%),
+        linear-gradient(160deg, rgba(15,29,51,.88), rgba(5,11,24,.94));
+    }
+    .hero-panel::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size:28px 28px;
+      mask-image:radial-gradient(circle at 52% 28%, #000 0 26%, transparent 78%);
+      opacity:.75;
+    }
+    .orbit-visual {
+      position:relative;
+      height:252px;
+      margin-bottom:16px;
+      display:grid;
+      place-items:center;
+      z-index:1;
+    }
+    .orbit-ring {
+      position:absolute;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:linear-gradient(90deg, rgba(45,212,255,.05), rgba(139,92,246,.05));
+    }
+    .orbit-ring.loop-a { width:82%; height:150px; transform:rotate(-13deg); border-color:rgba(45,212,255,.42); box-shadow:0 0 60px rgba(45,212,255,.14); animation:floatA 7s ease-in-out infinite; }
+    .orbit-ring.loop-b { width:82%; height:150px; transform:rotate(13deg); border-color:rgba(139,92,246,.42); box-shadow:0 0 64px rgba(139,92,246,.14); animation:floatB 7.5s ease-in-out infinite; }
+    @keyframes floatA { 50%{ transform:rotate(-9deg) translateY(-4px); } }
+    @keyframes floatB { 50%{ transform:rotate(9deg) translateY(4px); } }
+    .orbit-core {
+      width:126px;
+      height:126px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      position:relative;
+      z-index:2;
+      border:1px solid rgba(255,255,255,.18);
+      background:radial-gradient(circle at 35% 24%, rgba(255,255,255,.18), rgba(5,11,24,.88));
+      box-shadow:0 0 72px rgba(45,212,255,.2), 0 0 70px rgba(139,92,246,.16);
+    }
+    .orbit-core strong { font-size:28px; letter-spacing:-.05em; line-height:.95; }
+    .orbit-core span { display:block; margin-top:7px; color:var(--muted); font-size:12px; font-weight:800; }
+    .orbit-chip {
+      position:absolute;
+      z-index:3;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(5,11,24,.72);
+      color:#e6f6ff;
+      border-radius:999px;
+      padding:8px 10px;
+      font-family:var(--mono);
+      font-size:12px;
+      font-weight:950;
+      backdrop-filter:blur(14px);
+      box-shadow:0 14px 44px rgba(0,0,0,.26);
+    }
+    .orbit-chip.c1{ left:7%; top:28px; border-color:rgba(45,212,255,.38); }
+    .orbit-chip.c2{ right:5%; top:38px; border-color:rgba(45,212,255,.34); }
+    .orbit-chip.c3{ left:13%; bottom:36px; border-color:rgba(139,92,246,.38); }
+    .orbit-chip.c4{ right:10%; bottom:28px; border-color:rgba(139,92,246,.38); }
+    .summary-card {
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(150deg, rgba(255,255,255,.082), rgba(255,255,255,.032));
+    }
+    .summary-card::before {
+      content:"";
+      position:absolute;
+      inset:-1px;
+      opacity:.18;
+      background:linear-gradient(120deg, transparent 15%, rgba(255,255,255,.5) 45%, transparent 66%);
+      transform:translateX(-120%);
+      animation:sheen 7s ease-in-out infinite;
+    }
+    @keyframes sheen { 18%,100%{ transform:translateX(120%); } }
+    .summary-card > * { position:relative; z-index:1; }
+    .control-room {
+      background:
+        radial-gradient(circle at 12% 8%, rgba(45,212,255,.14), transparent 30%),
+        radial-gradient(circle at 90% 16%, rgba(139,92,246,.14), transparent 32%),
+        rgba(15,29,51,.72);
+    }
+    .control-room::after {
+      content:"";
+      position:absolute;
+      inset:auto -10% -36% -10%;
+      height:220px;
+      background:radial-gradient(ellipse, rgba(45,212,255,.16), transparent 64%);
+      pointer-events:none;
+    }
+    .loop-card {
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.066), rgba(255,255,255,.026)),
+        rgba(7,17,31,.42);
+    }
+    .node {
+      background:
+        radial-gradient(circle at 94% 0, rgba(45,212,255,.12), transparent 42%),
+        linear-gradient(180deg, rgba(15,29,51,.86), rgba(7,17,31,.74));
+    }
+    .loop2 .node {
+      background:
+        radial-gradient(circle at 94% 0, rgba(139,92,246,.14), transparent 42%),
+        linear-gradient(180deg, rgba(15,29,51,.86), rgba(7,17,31,.74));
+    }
+    .node::after {
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      background:linear-gradient(135deg, rgba(255,255,255,.09), transparent 36%);
+      opacity:.38;
+      pointer-events:none;
+    }
+    .node strong, .node span, .node small { position:relative; z-index:1; }
+    .node .agent-dot { z-index:2; }
+    .node.active { transform:translateY(-3px) scale(1.01); }
+    .cockpit {
+      background:
+        radial-gradient(circle at 18% 0, rgba(45,212,255,.12), transparent 34%),
+        linear-gradient(155deg, rgba(15,29,51,.84), rgba(7,17,31,.9));
+    }
+    .meta {
+      background:linear-gradient(150deg, rgba(255,255,255,.07), rgba(255,255,255,.032));
+      min-height:90px;
+    }
+    .state-chain { grid-template-columns:repeat(auto-fit, minmax(96px,1fr)); }
+    .state-chain span { background:rgba(255,255,255,.035); }
+    .linked-panel, .lab-card {
+      background:
+        radial-gradient(circle at 100% 0, rgba(139,92,246,.08), transparent 30%),
+        var(--panel);
+    }
+    .prompt-box, .packet {
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.03), 0 20px 60px rgba(0,0,0,.2);
+    }
+    .repo-btn {
+      background:linear-gradient(135deg, rgba(45,212,255,.13), rgba(139,92,246,.11));
+      border-color:rgba(45,212,255,.32);
+    }
     @media (max-width: 1020px) {
       .hero-grid, .control-layout, .linked-grid, .tasklab, .repo-strip { grid-template-columns:1fr; }
       .cockpit { position:static; }
       .role-strip { grid-template-columns:1fr; }
       .node-track { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .state-chain { grid-template-columns:repeat(4, minmax(0,1fr)); }
     }
     @media (max-width: 720px) {
       .shell { width: min(100% - 24px, 1220px); }
@@ -285,6 +482,15 @@
           </div>
         </div>
         <aside class="hero-panel">
+          <div class="orbit-visual" aria-hidden="true">
+            <div class="orbit-ring loop-a"></div>
+            <div class="orbit-ring loop-b"></div>
+            <div class="orbit-core"><div><strong>Dual<br>Loop</strong><span>G1 · G2 · G3</span></div></div>
+            <span class="orbit-chip c1">010-040</span>
+            <span class="orbit-chip c2">Claude 证伪</span>
+            <span class="orbit-chip c3">Plan/Test</span>
+            <span class="orbit-chip c4">Codex 复盘</span>
+          </div>
           <div class="loop-summary">
             <article class="summary-card loop1"><h3>Loop 1：方案脑暴 / 路线校验</h3><p>010 冻结目标 → 012 风险地图 → 015 证据分级 → 020 多路线 → 030 Claude 证伪 → 035 选路 → 040 三类 Spike。</p><div class="mini-cycle"><span>GPT-Pro 生成/修复</span><b>⇄</b><span>Claude 独立证伪</span></div></article>
             <article class="summary-card loop2"><h3>Loop 2：协同交付 / 执行验证</h3><p>Claude Code 调研与 plan → G2 approved → Worktree Check → Codex 实现/测试/复盘 → Claude Code 终检 → G3。</p><div class="mini-cycle"><span>Claude Code Plan/Review</span><b>⇄</b><span>Codex 执行/复盘</span></div></article>
