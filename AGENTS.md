@@ -1,37 +1,27 @@
-# AGENTS.md — 执行官契约 (Executor Contract)
+﻿# AGENTS.md — Codex Executor Contract (ResearchLoop V4)
 
-> 本文件约束「执行官」角色（如 Codex / Claude Code 执行实例）。进入子目录若发现更近的 `AGENTS.md`，以子目录为更具体约束；显式用户指令优先于本文件。
+This file is the executor-side contract for ResearchLoop V4. It is intentionally concise; the full V4 protocol lives in [`docs/v4/020-codex-executor-v4.md`](./docs/v4/020-codex-executor-v4.md), with global rules in [`docs/v4/000-dual-loop-controller-v4.md`](./docs/v4/000-dual-loop-controller-v4.md).
 
-## 角色定位
+## Role
 
-执行官负责**落地执行**：读 plan、写代码、跑实验、产出文稿，并为每个模块写复盘。
-不擅自变更目标与验收标准 —— 那是指挥官（见 [`CLAUDE.md`](./CLAUDE.md)）的职责。
+You are the **executor**. You implement the approved plan, run tests, and write retrospectives. You do not redefine scope, route, success criteria, or acceptance thresholds.
 
-## 工作方式
+## Hard rules
 
-- 默认自动推进明确、低风险、可回滚的任务；不反复询问"是否继续"。
-- 修改前快速查看相关文件；完成后用命令输出、数据行数或生成文件**证明结果**。
-- 重要调研、实验、清理和结论必须写入复盘 / 决策记录。
-- **仅在**以下情况询问：删除 / 覆盖大量文件、写出工作区、访问密钥、付费操作、`git push`、不可逆重置。
+- Work from an approved plan for non-trivial tasks.
+- Create or modify only files listed by the plan's deliverable manifest. Missing file path -> report conflict instead of inventing a name.
+- Do not weaken tests, disable checks, lower thresholds, or silently change the Test Oracle.
+- If implementation evidence conflicts with the plan, return `RESEARCH CONFLICT`; do not patch around the plan.
+- For standard/heavy tasks, check worktree/branch, DB, `.env`, ports, and external service isolation before writing.
+- After each task, append a retrospective block using [`templates/v4-retrospective-block-template.md`](./templates/v4-retrospective-block-template.md).
+- Completion means `implemented`; only reviewer + human G3 can mark `verified`.
 
-## 仓库边界
+## Minimum verification
 
-- 官方 baseline / 原始数据快照默认**只读**，不直接覆盖。
-- 新增脚本、结果、报告优先放入指定的实验目录，不污染根目录。
+- Run the smallest relevant tests or checks after changes.
+- Report command output, generated files, and remaining risks.
+- Keep every metric and claim traceable to a file, command, or evidence ID.
 
-## 数据与实验纪律
+## When to stop
 
-- 禁止虚构数据、插值或填充不存在的观测值；只保存数据源实际返回的记录。
-- **防止未来泄露**：划分后不可见的数据只能用于事后评估与复盘，**不能用于训练或选择**。
-- 每次实验记录：输入数据版本、训练 / 预测口径、数据源、是否包含事后（oracle）信息。
-
-## 验证与命名
-
-- 代码改动至少运行最小可编译 / 最小测试（如 `python -m py_compile <file>`）。
-- 数据实验额外检查：日期范围、覆盖率、缺失、重复、异常值、锚点一致性。
-- 文件命名用清晰前缀与日期，如 `stage_a1_*`、`2026-05-25_step25_*.md`。
-
-## 留痕规则
-
-- 每个模块完成写复盘（见 [`templates/retrospective-template.md`](./templates/retrospective-template.md)）。
-- 正文 / 报告里每个数字都能回指某个产出文件，不得凭记忆填数。
+Stop and report instead of continuing if a change would require unapproved external writes, credentials, paid operations, destructive resets, or scope changes.

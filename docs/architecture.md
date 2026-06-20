@@ -1,58 +1,62 @@
-# 体系设计详解 · Architecture Notes
+﻿# ResearchLoop V4 Architecture Notes
 
-## 1. 为什么是「双角色」而不是一个 Agent
+ResearchLoop V4 separates complex Agent work into two loops:
 
-单 Agent 既做规划又做执行时，容易陷入**自我确认偏差**：自己定的方案自己执行、自己验收，错误难以被发现。把角色拆成两个并各自用契约约束，带来三个好处：
+- **Loop 1 · 方案层** answers whether the team is solving the right problem with the right route.
+- **Loop 2 · 协同交付层** answers whether the approved route is implemented safely and verifiably.
 
-- **规划与执行分离** —— 指挥官只管"做什么、做到什么程度"，执行官只管"怎么做"，互为牵制。
-- **产出稳定** —— 契约固定了角色边界、命名规范、验证红线，跨任务结果可复现。
-- **强制可追溯** —— plan 与复盘把"为什么这么做""结果如何"沉淀成文件，几十个实验也能回溯。
+## 1. Loop 1: do the right thing
 
-## 2. 角色与契约
+Loop 1 produces a frozen, evidence-backed route before implementation starts.
 
-| 角色 | 契约 | 核心职责 |
+| Step | Artifact | Purpose |
 |---|---|---|
-| 指挥官 Claude | [`CLAUDE.md`](../CLAUDE.md) | 拆解任务、写 plan、定验收、复核终审 |
-| 执行官 Codex | [`AGENTS.md`](../AGENTS.md) | 读 plan、落地执行、写复盘 |
-| 外部审查 | 独立 Agent 会话 | 不参与执行，只做逐文件核查 |
+| 010 | 问题定义 | Freeze goal, success criteria, constraints, out-of-scope, knowns, unknowns |
+| 012 | 难题风险地图 | Identify hard unknowns, risk types, escalation triggers |
+| 015 | 调研基线与经验清单 | Gather official docs, upstream practices, GitHub/issue failures, skill candidates; grade evidence A/B/C/D |
+| 020 | 候选路线 | Generate neutral candidate routes |
+| 030 | 独立对抗评审 | Challenge candidates and calibrate BLOCKER vs RISK |
+| 035 | 路线裁决 | Select route, dispose blockers, define module breakdown |
+| 040 | 验证桩结论 | Run Spike A/B/C for feasibility, refutation, and integration |
 
-> 子目录可放更近的契约文件，作为对该子目录的**更具体约束**，覆盖全局契约。
+## 2. Loop 2: do the thing right
 
-## 3. 四阶段闭环细节
+Loop 2 makes execution auditable through same-numbered artifacts.
 
-| 阶段 | 输入 | 输出 | 红线 |
-|---|---|---|---|
-| plan | 需求 | plan 文件（六项） | 三步以上任务必须先有 plan |
-| 执行 | plan | 代码 / 实验 / 文稿 | 改前先查、结果用证据证明 |
-| 复盘 | 执行产出 | 复盘报告（六段） | 每个数字可回指产出文件 |
-| 外部审查 | 正式产出 | 逐文件核查报告 | 数字一致、结论不过度声明 |
-
-```mermaid
-flowchart TB
-    A([需求]) --> B["📋 plan 文件<br/>目标 · 输入 · 步骤 · 验收 · 风险 · 状态"]:::art
-    B --> C["⚙️ 执行<br/>改前先查 · 结果用证据证明"]
-    C --> D["📝 复盘报告<br/>做了什么 · 结果 · 问题 · 决策 · 教训 · 下一步"]:::art
-    D --> E{"🔍 外部审查<br/>数字一致? 结论不过度? 格式合规?"}
-    E -->|打回| B
-    E -->|通过| F([✅ 正式产出]):::done
-    classDef art fill:#FBEDE2,stroke:#D85B16,color:#1E3A5F
-    classDef done fill:#DCFCE7,stroke:#16A34A,color:#166534
+```text
+research/NNN-模块中文名-调研台账.md
+plans/NNN-模块中文名-计划.md
+retrospectives/NNN-模块中文名-复盘.md
+reviews/NNN-模块中文名-核查.md
 ```
 
-## 4. 防泄漏与诚实协议
+The reviewer writes the plan and Test Oracle. The executor implements exactly what the approved plan permits. The reviewer then performs final review with fresh evidence and counter-evidence search.
 
-这是本体系区别于"随便调 API"的核心纪律：
+## 3. Evidence IDs
 
-- **数据划分后不可见的数据不进训练**，只用于事后评估与复盘。
-- **基线对照**：每个模型与朴素基线（persistence / naive / 多数类）比较，不脱离基线谈"高精度"。
-- **探索性 vs 可写入结论**：冲分 / 调参得到的结果与严格协议下的最终结果分开标注。
-- **数据回指**：报告里每个数字都能追到某次运行的产出文件。
+ResearchLoop V4 uses explicit evidence IDs to avoid memory-based claims:
 
-## 5. 外部审查机制
+| Prefix | Source |
+|---|---|
+| `L1-E###` | Loop 1 evidence |
+| `CC-R###` | Claude Code planning research |
+| `CX-R###` | Codex execution research |
+| `CC-V###` | Claude Code final verification evidence |
 
-正式产出（论文、提交包、平台）前，开一个**独立 Agent 会话**做外部审查。该 Agent 不参与前面的执行，只负责：
+## 4. Human gates
 
-1. 逐文件核查正文数字与产出文件是否一致；
-2. 检查结论边界是否被夸大（探索性结果是否被写成普适结论）；
-3. 检查格式合规与敏感 / 个人信息泄露；
-4. 产出一份核查报告，交指挥官终审。
+- **G1**: approve the problem and route.
+- **G2**: approve executable plan and external-write permissions.
+- **G3**: accept final verified result.
+
+## 5. State machine
+
+```text
+draft -> approved -> implemented -> verified
+```
+
+`implemented` is not `verified`. Verification requires final review and G3 acceptance.
+
+## 6. Product prototype
+
+[`apps/researchloop.html`](../apps/researchloop.html) is a standalone HTML prototype that turns project inputs into a structured `010-问题定义.md` document. It demonstrates how Spec Lock can be productized for students, research writers, modeling teams, and AI coding users.
