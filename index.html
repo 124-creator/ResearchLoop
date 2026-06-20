@@ -1,12 +1,12 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="ResearchLoop V4.1 是一个中文双循环 AI Agent 工作流控制台，展示 GPT-Pro、Claude 与 Codex 的方案校验循环和执行验证循环。">
+  <meta name="description" content="ResearchLoop V4 是一个严格映射 010-040 与 Claude Code/Codex 交付链的中文双循环 AI Agent 工作流控制台。">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27%2307111f%27/%3E%3Cpath d=%27M18 21c7-8 20-8 27 0 7 8 5 20-4 26-7 5-18 4-24-3%27 fill=%27none%27 stroke=%27%232dd4ff%27 stroke-width=%275%27 stroke-linecap=%27round%27/%3E%3Cpath d=%27M45 43c-7 8-20 8-27 0-7-8-5-20 4-26 7-5 18-4 24 3%27 fill=%27none%27 stroke=%27%238b5cf6%27 stroke-width=%275%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
-  <title>ResearchLoop V4.1 — 中文双循环 Agent 工作流控制台</title>
+  <title>ResearchLoop V4 — 严格双 Loop Agent 工作流控制台</title>
   <style>
     :root {
       --bg: #07111f;
@@ -264,8 +264,8 @@
 <body>
   <header class="topbar">
     <div class="shell nav">
-      <a class="brand" href="#top" aria-label="ResearchLoop V4.1 首页"><span class="mark" aria-hidden="true"></span><span><strong>ResearchLoop V4.1</strong><span>中文双循环 Agent 工作流控制台</span></span></a>
-      <nav class="navlinks" aria-label="主导航"><a href="#control">双循环</a><a href="#lab">任务包</a><a href="#evidence">证据链</a><a href="#prompts">提示词</a><a href="#flowchart">完整图</a></nav>
+      <a class="brand" href="#top" aria-label="ResearchLoop V4 首页"><span class="mark" aria-hidden="true"></span><span><strong>ResearchLoop V4</strong><span>严格双 Loop Agent 工作流控制台</span></span></a>
+      <nav class="navlinks" aria-label="主导航"><a href="#why">为什么循环</a><a href="#control">动态双循环</a><a href="#lab">010 输入包</a><a href="#evidence">证据链</a><a href="#prompts">提示词</a><a href="#flowchart">完整图</a></nav>
       <a class="repo-btn" href="https://github.com/124-creator/ResearchLoop" target="_blank" rel="noreferrer">GitHub</a>
     </div>
   </header>
@@ -276,40 +276,51 @@
         <div>
           <div class="eyebrow"><i></i> GPT-Pro × Claude × Codex</div>
           <h1>先把方案审对，<br><span class="gradient-text">再把执行做对。</span></h1>
-          <p class="lead">ResearchLoop V4.1 把 AI Agent 协作拆成两个可循环闭环：Loop 1 由 GPT-Pro 生成/修复方案，Claude 独立检验并给出修改意见；Loop 2 由 Claude 给出 Plan/Review，Codex 执行、测试并提交复盘，再交给 Claude 终检。</p>
-          <div class="hero-actions"><a class="btn primary" href="#control">启动双 Loop 演示</a><button class="btn violet" type="button" id="heroPlay">自动演示循环</button><a class="btn" href="#prompts">复制协作提示词</a></div>
+          <p class="lead">ResearchLoop V4 严格映射本地 010-040 指令源：Loop 1 是方案脑暴与路线校验，GPT-Pro 负责多路线生成/修复，Claude 独立联网证伪；Loop 2 是协同交付，Claude Code 给出 plan/Test Oracle，Codex 执行、测试、复盘，再由 Claude Code 终检。</p>
+          <div class="hero-actions"><a class="btn primary" href="#control">启动双 Loop 演示</a><button class="btn violet" type="button" id="heroPlay">自动演示循环</button><a class="btn" href="#why">查看为什么要循环</a></div>
           <div class="role-strip" aria-label="三类智能体角色">
-            <div class="role-card"><strong>GPT-Pro</strong><span>负责 Loop 1 的方案生成与方案修复，把 Claude 的审查意见转化为更稳的路线。</span></div>
-            <div class="role-card claude"><strong>Claude</strong><span>负责独立检验、提出 BLOCKER/RISK/PASS，也负责 Loop 2 的 Plan 与终检。</span></div>
-            <div class="role-card codex"><strong>Codex</strong><span>负责按 Plan 执行、测试、记录 diff 和复盘报告，把交付证据落到文件与命令中。</span></div>
+            <div class="role-card"><strong>GPT-Pro</strong><span>负责 010/012/015/020/035 的方案脑暴、证据基线、候选路线与修复闭环。</span></div>
+            <div class="role-card claude"><strong>Claude / Claude Code</strong><span>负责 030 独立证伪、040 约束封包、Loop2 计划、终检与反证搜索。</span></div>
+            <div class="role-card codex"><strong>Codex</strong><span>只按 approved plan 执行、测试、记录 diff/CX-R，并输出同号复盘。</span></div>
           </div>
         </div>
         <aside class="hero-panel">
           <div class="loop-summary">
-            <article class="summary-card loop1"><h3>Loop 1：方案校验循环</h3><p>GPT-Pro 产出方案 → Claude 独立审查 → GPT-Pro 根据意见修复 → Claude 再审，直到方案能够进入执行层。</p><div class="mini-cycle"><span>GPT-Pro 方案/修复</span><b>⇄</b><span>Claude 独立检验</span></div></article>
-            <article class="summary-card loop2"><h3>Loop 2：执行验证循环</h3><p>Claude 给出执行 Plan → Codex 执行/测试/复盘 → Claude 检查 diff、测试结果与复盘，直到成为 G3 候选。</p><div class="mini-cycle"><span>Claude Plan/Review</span><b>⇄</b><span>Codex 执行/复盘</span></div></article>
+            <article class="summary-card loop1"><h3>Loop 1：方案脑暴 / 路线校验</h3><p>010 冻结目标 → 012 风险地图 → 015 证据分级 → 020 多路线 → 030 Claude 证伪 → 035 选路 → 040 三类 Spike。</p><div class="mini-cycle"><span>GPT-Pro 生成/修复</span><b>⇄</b><span>Claude 独立证伪</span></div></article>
+            <article class="summary-card loop2"><h3>Loop 2：协同交付 / 执行验证</h3><p>Claude Code 调研与 plan → G2 approved → Worktree Check → Codex 实现/测试/复盘 → Claude Code 终检 → G3。</p><div class="mini-cycle"><span>Claude Code Plan/Review</span><b>⇄</b><span>Codex 执行/复盘</span></div></article>
           </div>
         </aside>
       </div>
     </section>
 
+    <section id="why">
+      <div class="shell">
+        <div class="section-head"><div><div class="kicker">Why loops</div><h2>为什么必须循环：先防方向错，再防执行漂移。</h2></div><p class="section-copy">这不是把 Prompt 写得更长，而是把“方案证伪”和“交付验收”拆成两个独立闭环。每次循环都必须留下文件交接物，下一层只读取这些交接物继续推进。</p></div>
+        <div class="role-strip">
+          <div class="role-card"><strong>Loop 1 解决：怎么做才是对的</strong><span>010-040 把目标、风险、证据、路线、反证、裁决和 Spike 都落成文档，避免 Agent 在错误方向上高效执行。</span></div>
+          <div class="role-card claude"><strong>Loop 2 解决：怎样把已选路线做对</strong><span>Claude Code 负责 plan/Test Oracle/终检，Codex 只能按 approved plan 执行，避免执行时偷换范围、弱化测试或漏写复盘。</span></div>
+          <div class="role-card codex"><strong>文件是交接总线，不是聊天记录</strong><span>Spec 用 010-040；模块交付用 NNN 同号调研、plan、复盘、review；证据 ID 用 L1-E / CC-R / CX-R / CC-V。</span></div>
+        </div>
+      </div>
+    </section>
+
     <section id="control">
       <div class="shell">
-        <div class="section-head"><div><div class="kicker">Dual-loop control room</div><h2>点击节点，观察两个循环如何互相推进。</h2></div><p class="section-copy">这不是真实调用 LLM 的后台，而是一个公开安全的静态模拟器：它展示角色、产物、审查信号、证据链和提示词如何随循环状态变化。</p></div>
+        <div class="section-head"><div><div class="kicker">Dual-loop control room</div><h2>点击节点，观察动作、交接物、证据与回环理由同步变化。</h2></div><p class="section-copy">这不是真实调用 LLM 的后台，而是公开安全的静态模拟器：它严格展示 V4 源文件中的 010-040 方案循环，以及 Claude Code/Codex 同号交付循环。</p></div>
         <div class="control-layout">
           <div class="panel control-room">
             <div class="control-toolbar"><span class="round-badge" id="roundBadge">Round 1 · draft</span><div class="toolbar-buttons"><button class="btn primary small" type="button" id="playBtn">自动演示循环</button><button class="btn small" type="button" id="nextBtn">下一步</button><button class="btn small" type="button" id="resetBtn">重置</button></div></div>
             <div class="loop-grid">
-              <article class="loop-card loop1" id="loop1Card"><div class="loop-title"><div><h3>Loop 1 · 方案校验循环</h3><p>GPT-Pro 生成/修复方案，Claude 独立检验并给出修改意见。</p></div><span class="loop-badge">GPT-Pro ⇄ Claude</span></div><div class="node-track" id="loop1Nodes"></div></article>
-              <div class="bridge-strip"><span>G1/G2 通过后，方案交给执行验证循环</span></div>
-              <article class="loop-card loop2" id="loop2Card"><div class="loop-title"><div><h3>Loop 2 · 执行验证循环</h3><p>Claude 给 Plan/Review，Codex 执行、测试、复盘，再回到 Claude 终检。</p></div><span class="loop-badge">Claude ⇄ Codex</span></div><div class="node-track" id="loop2Nodes"></div></article>
+              <article class="loop-card loop1" id="loop1Card"><div class="loop-title"><div><h3>Loop 1 · 方案脑暴 / 路线校验层</h3><p>GPT-Pro 产出与修复多路线，Claude 独立联网证伪；每步交付 010-040 文档。</p></div><span class="loop-badge">GPT-Pro ⇄ Claude</span></div><div class="node-track" id="loop1Nodes"></div></article>
+              <div class="bridge-strip"><span>040 约束封包 + G1 通过后，才进入 Loop 2；G2 只批准“怎么执行”</span></div>
+              <article class="loop-card loop2" id="loop2Card"><div class="loop-title"><div><h3>Loop 2 · 协同交付 / 执行验证层</h3><p>Claude Code 规划与终检，Codex 按 approved plan 执行、测试、复盘。</p></div><span class="loop-badge">Claude Code ⇄ Codex</span></div><div class="node-track" id="loop2Nodes"></div></article>
             </div>
           </div>
           <aside class="panel cockpit" aria-live="polite">
             <div class="active-agent"><span class="agent-chip" id="agentChip">GPT-Pro</span><span class="signal draft" id="signalChip">DRAFT</span></div>
             <h3 id="activeTitle">生成 010 方案草案</h3>
             <p id="activeDesc">把模糊目标转换成可审查的问题定义，并明确非目标、隐私边界和验收标准。</p>
-            <div class="meta-grid"><div class="meta"><b>当前动作</b><span id="activeAction">方案生成</span></div><div class="meta"><b>当前产物</b><span id="activeArtifact">010 问题定义</span></div><div class="meta"><b>审查关注</b><span id="activeReview">目标是否稳定</span></div><div class="meta"><b>下一步</b><span id="activeNext">Claude 独立检验</span></div></div>
+            <div class="meta-grid"><div class="meta"><b>当前动作</b><span id="activeAction">方案生成</span></div><div class="meta"><b>当前交接物</b><span id="activeArtifact">010 问题定义</span></div><div class="meta"><b>交接/回环理由</b><span id="activeReview">目标是否稳定</span></div><div class="meta"><b>下一步</b><span id="activeNext">Claude 独立检验</span></div></div>
             <div class="state-chain" id="stateChain"><span>draft</span><span>reviewed</span><span>implemented</span><span>G3 candidate</span></div>
           </aside>
         </div>
@@ -322,32 +333,40 @@
 
     <section id="lab">
       <div class="shell">
-        <div class="section-head"><div><div class="kicker">010 Packet Lab</div><h2>把一句话任务变成 Loop 1 输入。</h2></div><p class="section-copy">生成结果只在浏览器本地展示，适合复制给 GPT-Pro 进入第一轮方案生成。</p></div>
-        <div class="tasklab"><article class="panel lab-card"><label for="taskInput">输入一个模糊任务</label><textarea id="taskInput">请优化 ResearchLoop Demo 页面，突出 GPT-Pro、Claude、Codex 的双循环协作，并同步到 GitHub Pages。</textarea><div class="lab-row"><div><label for="riskSelect">风险等级</label><select id="riskSelect"><option value="low">低：轻量修改</option><option value="medium" selected>中：多文件与展示风险</option><option value="high">高：外部发布或隐私边界</option></select></div><div><label for="scopeSelect">范围</label><select id="scopeSelect"><option value="one">单文件</option><option value="multi" selected>多文件</option><option value="release">公开发布</option></select></div></div><button class="btn primary" type="button" id="packetBtn" style="margin-top:14px">生成 010 输入包</button></article><article class="panel lab-card"><div class="packet" id="packetOutput"></div></article></div>
+        <div class="section-head"><div><div class="kicker">010 Packet Lab</div><h2>把一句话任务变成 V4 第一层循环输入。</h2></div><p class="section-copy">生成结果只在浏览器本地展示，适合复制给 GPT-Pro 作为 010 起点，并自动提示后续必须交付的文档。</p></div>
+        <div class="tasklab"><article class="panel lab-card"><label for="taskInput">输入一个模糊任务</label><textarea id="taskInput">请优化 ResearchLoop Demo 页面，严格体现 010-040 方案循环、Claude Code/Codex 交付循环、每一步交接物，并同步到 GitHub Pages。</textarea><div class="lab-row"><div><label for="riskSelect">风险等级</label><select id="riskSelect"><option value="low">低：轻量修改</option><option value="medium" selected>中：多文件、需要比较路线</option><option value="high">高：公开发布 / 高不确定 / 外部依赖</option></select></div><div><label for="scopeSelect">范围</label><select id="scopeSelect"><option value="one">单模块</option><option value="multi" selected>多模块</option><option value="release">公开 Demo / 简历链接</option></select></div></div><button class="btn primary" type="button" id="packetBtn" style="margin-top:14px">生成 010-040 输入包</button></article><article class="panel lab-card"><div class="packet" id="packetOutput"></div></article></div>
       </div>
     </section>
 
     <section id="flowchart">
       <div class="shell">
-        <div class="section-head"><div><div class="kicker">Full V4 map</div><h2>完整流程图保留为协议地图。</h2></div><p class="section-copy">上方控制台展示核心双循环；这里保留完整 V4 流程图，方便面试或 README 中快速解释全局结构。</p></div>
-        <article class="panel flow-img-card"><img class="flow-img" src="./assets/researchloop-v4-flowchart.png" alt="ResearchLoop V4 完整双 Loop 流程图"></article>
-        <div class="repo-strip"><div><h2>公开作品集定位：不是 Prompt，而是 Agent 协作机制。</h2><p>页面展示了方案审查循环、执行验证循环、证据链、复盘与 G3 候选状态，适合作为 AI Agent 方向简历项目链接。</p></div><div class="hero-actions"><a class="btn primary" href="https://github.com/124-creator/ResearchLoop" target="_blank" rel="noreferrer">打开 GitHub</a><a class="btn" href="./docs/v4/000-dual-loop-controller-v4.md">阅读协议</a></div></div>
+        <div class="section-head"><div><div class="kicker">Full V4 map</div><h2>完整流程图保留为协议地图。</h2></div><p class="section-copy">动态控制台负责讲清“双 Loop 为什么循环、每一步交什么”；完整流程图负责面试时快速展示全局结构。</p></div>
+        <article class="panel flow-img-card"><img class="flow-img" src="assets/researchloop-v4-flowchart.png" alt="ResearchLoop V4 完整双 Loop 流程图"></article>
+        <div class="repo-strip"><div><h2>公开作品集定位：不是 Prompt，而是 Agent 协作机制。</h2><p>页面展示 010-040 方案层、同号交付链、证据 ID、门禁与复盘，适合作为 AI Agent 方向简历项目链接。</p></div><div class="hero-actions"><a class="btn primary" href="https://github.com/124-creator/ResearchLoop" target="_blank" rel="noreferrer">打开 GitHub</a><a class="btn" href="docs/v4/000-dual-loop-controller-v4.md">阅读协议</a></div></div>
       </div>
     </section>
   </main>
 
-  <footer><div class="shell footer-line"><span>ResearchLoop V4.1 · 中文双循环 Agent 工作流控制台</span><span>静态公开 Demo：不上传文本，不调用外部 API，不包含私有数据。</span></div></footer>
+  <footer><div class="shell footer-line"><span>ResearchLoop V4 · 严格双 Loop Agent 工作流控制台</span><span>静态公开 Demo：不上传文本，不调用外部 API，不包含私有数据。</span></div></footer>
 
   <script>
     const steps = [
-      {id:'L1-010', loop:'loop1', code:'010', agent:'GPT-Pro', signal:'DRAFT', signalClass:'draft', title:'GPT-Pro 生成 010 方案草案', desc:'把模糊任务转换成可审查的问题定义：目标、非目标、边界、验收标准和停止条件。', action:'方案生成', artifact:'010 问题定义', review:'目标是否稳定，边界是否清晰', next:'Claude 独立检验', state:0, evidence:['L1-GPT-010','BOUNDARY-010'], prompt:'你是 GPT-Pro，进入 ResearchLoop V4.1 Loop 1。\n\n请只生成 010 问题定义：\n- 目标 / 非目标\n- 用户真正想要的结果\n- 公开边界与不可触碰内容\n- 成功标准\n- 停止条件\n\n不要执行，不要修改文件。'},
-      {id:'L1-030', loop:'loop1', code:'030', agent:'Claude', signal:'BLOCKER', signalClass:'blocker', title:'Claude 独立检验并提出修改意见', desc:'Claude 不执行方案，而是审查 GPT-Pro 的 010/012/020：找 BLOCKER、风险、证据缺口和最小修复建议。', action:'独立检验', artifact:'030 审查意见', review:'是否存在 BLOCKER 或证据缺口', next:'GPT-Pro 根据意见修复', state:1, evidence:['CL-R030','BLOCKER-MAP'], prompt:'你是 Claude 独立审查官。\n\n审查 GPT-Pro 的方案包，输出：\n- BLOCKER：必须修复的问题\n- RISK：可以执行但需缓解的问题\n- PASS：可以进入执行层\n\n每条意见必须包含证据 ID、原因和最小修复建议。'},
-      {id:'L1-035', loop:'loop1', code:'035', agent:'GPT-Pro', signal:'RISK', signalClass:'risk', title:'GPT-Pro 根据 Claude 意见修复路线', desc:'GPT-Pro 吸收 Claude 的 BLOCKER/RISK，修复路线、补充 Test Oracle，并保留 rejected route 作为证据。', action:'方案修复', artifact:'035 修复后路线', review:'修改意见是否逐条闭环', next:'Claude 再次检验', state:1, evidence:['GPT-FIX-035','ORACLE-040'], prompt:'你是 GPT-Pro。\n\n根据 Claude 的 BLOCKER/RISK 清单修复方案：\n- 逐条回应修改意见\n- 补充缺失证据\n- 调整执行路线\n- 更新 Test Oracle\n- 标记哪些问题仍需人工 G2 决策\n\n不要跳过任何审查意见。'},
-      {id:'L1-040', loop:'loop1', code:'040', agent:'Claude', signal:'PASS', signalClass:'pass', title:'Claude 复检通过，形成执行输入', desc:'Claude 确认方案、风险、证据和 Test Oracle 已足够，才允许进入 Loop 2 的执行验证循环。', action:'复检放行', artifact:'040 Test Oracle + G2 候选', review:'是否可以交给执行层', next:'Claude 生成执行 Plan', state:1, evidence:['CL-PASS-040','G2-CANDIDATE'], prompt:'你是 Claude 复检者。\n\n检查修复后的方案是否满足：\n- 目标稳定\n- 风险可控\n- Test Oracle 可执行\n- 交付清单明确\n\n若满足，输出 PASS + 执行层输入；否则继续给出 BLOCKER。'},
-      {id:'L2-PLAN', loop:'loop2', code:'PLAN', agent:'Claude', signal:'DRAFT', signalClass:'draft', title:'Claude 给出可执行 Plan', desc:'Claude 把通过的方案转化为 Codex 可执行计划：允许修改的文件、步骤、测试、回滚方式和 G2 边界。', action:'执行计划', artifact:'Claude Plan', review:'计划是否可执行且边界清楚', next:'Codex 执行前检查', state:2, evidence:['CL-PLAN-L2','MANIFEST-L2'], prompt:'你是 Claude 执行计划官。\n\n基于已通过的 Loop 1 方案，写出 Codex 可执行 Plan：\n- 允许修改的文件清单\n- 步骤顺序\n- Test Oracle\n- 回滚方式\n- 不允许改变的边界\n\n不要直接实现。'},
-      {id:'L2-EXEC', loop:'loop2', code:'EXEC', agent:'Codex', signal:'RISK', signalClass:'risk', title:'Codex 按 Plan 执行、测试、记录证据', desc:'Codex 不重新定义目标，只按照 Claude Plan 修改文件、运行检查、记录 diff、截图和命令输出。', action:'执行与测试', artifact:'diff + test output', review:'是否严格遵守 Plan', next:'Codex 写复盘报告', state:2, evidence:['CX-DIFF-013','CX-TEST-013'], prompt:'你是 Codex 执行者。\n\n规则：\n- 只按 Claude Plan 执行\n- 只改交付清单中的文件\n- 修改前检查 worktree\n- 修改后运行 Test Oracle\n- 记录 diff、截图、命令输出\n\n若计划与现实冲突，停止并报告。'},
-      {id:'L2-RETRO', loop:'loop2', code:'RETRO', agent:'Codex', signal:'DRAFT', signalClass:'draft', title:'Codex 输出复盘报告', desc:'Codex 把完成内容、遇到的问题、测试结果、剩余风险写成复盘，方便 Claude 终检。', action:'复盘报告', artifact:'retrospective', review:'证据是否足够复核', next:'Claude 终检', state:2, evidence:['CX-RETRO-014','EVIDENCE-LINK'], prompt:'你是 Codex。\n\n写复盘报告：\n- 完成了什么\n- 修改了哪些文件\n- 遇到的问题与解决过程\n- Test Oracle 结果\n- 剩余风险\n- 证据 ID\n\n不要把 implemented 写成 verified。'},
-      {id:'L2-REVIEW', loop:'loop2', code:'REVIEW', agent:'Claude', signal:'PASS', signalClass:'pass', title:'Claude 检验 diff、测试与复盘', desc:'Claude 检查 Codex 的 diff、测试结果和复盘报告，若有问题则回到 Codex 修复；通过后进入 G3 候选。', action:'终检审查', artifact:'Claude final review', review:'是否满足 Test Oracle', next:'G3 候选 / 下一轮 010', state:3, evidence:['CL-FINAL-014','G3-CANDIDATE'], prompt:'你是 Claude 终检者。\n\n检查 Codex 的交付：\n- diff 是否符合 Plan\n- 测试是否真实通过\n- 复盘是否解释了问题\n- 是否存在未解决风险\n\n输出 PASS/RISK/BLOCKER。PASS 后只能称为 G3 candidate。'}
+      {id:'L1-010', loop:'loop1', code:'010', agent:'GPT-Pro + 人类', signal:'G1-1', signalClass:'draft', title:'010 问题定义、冻结与需求确认', desc:'把模糊任务变成可审查的问题定义：目标、非目标、成功标准、验收口径、隐私与外部写边界。FROZEN 前必须与人类逐条确认，这是 G1 的第一道方向门。', action:'冻结“解决什么”和“怎么算成功”', artifact:'docs/dev/spec/010-问题定义.md', review:'交接：FROZEN 目标、验收口径、停止条件。若目标变化，必须回到 010。', next:'012 难题风险地图', state:0, evidence:['L1-E010','G1-FROZEN'], prompt:'你是 GPT-Pro，进入 ResearchLoop V4 Loop 1。\n\n只生成 010 问题定义：目标、非目标、成功标准、验收口径、隐私边界、外部写边界、停止条件。\nFROZEN 前列出必须向人类确认的问题。不要实现。'},
+      {id:'L1-012', loop:'loop1', code:'012', agent:'GPT-Pro', signal:'RISK MAP', signalClass:'risk', title:'012 难题风险地图', desc:'调研前先判断难在哪：未知项、外部依赖、不可逆风险、证据冲突、何时升级。重型必做，标准可选，轻型可跳过。', action:'绘制风险/未知项地图', artifact:'docs/dev/spec/012-难题风险地图.md', review:'交接：风险类型、未知项、升级条件、需要 040 验证的假设。没有风险地图会过早收敛。', next:'015 外部调研基线', state:0, evidence:['L1-E012','RISK-TAXONOMY'], prompt:'读取 010。输出 012 难题风险地图：难在哪、未知项有哪些、哪些风险会升级、哪些假设必须在 040 验证。\n不要选路线，不要写实现。'},
+      {id:'L1-015', loop:'loop1', code:'015', agent:'GPT-Pro', signal:'EVIDENCE', signalClass:'draft', title:'015 外部调研基线 + 证据分级 A/B/C/D', desc:'先研究，不选路。把官方文档、源码/论文、Issue、经验帖等分级，建立 L1-E 证据台账。关键结论必须有 A/B 级证据支撑。', action:'联网建立证据基线', artifact:'docs/dev/spec/015-调研基线与经验清单.md', review:'交接：证据 ID、来源等级、可复用经验、冲突证据。证据不足则 BLOCKED。', next:'020 中性候选路线', state:0, evidence:['L1-E015-A','L1-E015-D'], prompt:'你是独立研究员。完整读取 010 和 012，必须联网，先研究不选最终路线。\n输出 015 调研基线与经验清单，给每条证据 A/B/C/D 分级。关键结论无 A/B 证据则标 BLOCKED。'},
+      {id:'L1-020', loop:'loop1', code:'020', agent:'GPT-Pro', signal:'ROUTES', signalClass:'draft', title:'020 中性候选路线 R1/R2/R3', desc:'基于 010/012/015 生成 2-3 条真正不同的路线，只编号 R1/R2/R3，不提前标首选。每条都映射证据、假设、成本、风险和成功标准。', action:'生成多路线脑暴方案', artifact:'docs/dev/spec/020-候选路线.md', review:'交接：R1/R2/R3、证据映射、最危险假设。若只有一条路线，Claude 无法独立比较。', next:'030 Claude 独立证伪评审', state:0, evidence:['L1-E020-R1','L1-E020-R2'], prompt:'读取 010/012/015。提出 2-3 条真正不同的候选路线。\n不得改变冻结目标，不得把工具替换伪装成不同路线，不得提前标注首选。\n输出 020 候选路线.md。'},
+      {id:'L1-030', loop:'loop1', code:'030', agent:'Claude 网页端', signal:'BLOCKER', signalClass:'blocker', title:'030 Claude 独立联网证伪评审 + BLOCKER 校准表', desc:'Claude 在新鲜上下文里独立核实反例，先 steelman 再审查。所有候选阻断项先进 BLOCKER 校准表，低概率但灾难性/不可逆也要覆盖。', action:'独立证伪与 BLOCKER 校准', artifact:'docs/dev/spec/030-独立对抗评审.md', review:'交接：BLOCKER/RISK/PASS、反证、最小修复建议。发现 BLOCKER 则回 015/020 修复。', next:'035 新鲜上下文路线裁决', state:1, evidence:['L1-E030-BLOCKER','BLOCKER-CAL'], prompt:'你是 Claude 独立证伪评审。读取 010/012/015/020，但不要读取提案者聊天偏好。\n必须联网核实关键反例；先 STEELMAN，再审查。\n输出 030 独立对抗评审.md：BLOCKER/RISK/PASS + 校准表 + 最小修复建议。'},
+      {id:'L1-035', loop:'loop1', code:'035', agent:'强模型 + 人类', signal:'G1-2', signalClass:'risk', title:'035 新鲜上下文路线裁决（G1 第二道）', desc:'逐条处置 030 的 BLOCKER/RISK：ACCEPT / MITIGATE / REJECT。人类确认 SELECTED，G1 到此才完成：先确认做什么，再确认走哪条路。', action:'选择路线并拆模块', artifact:'docs/dev/spec/035-路线裁决.md', review:'交接：SELECTED 路线、保留风险、模块分解表、G1 确认。未处置 BLOCKER 不得进入 040。', next:'040 三类验证桩', state:1, evidence:['L1-E035-SELECTED','G1-CONFIRM'], prompt:'读取 010/012/015/020/030。逐条处置 BLOCKER/RISK：ACCEPT / MITIGATE / REJECT。\n输出 035 路线裁决：SELECTED 路线、保留风险、模块分解表、人类 G1 确认项。\n不要跳过反方意见。'},
+      {id:'L1-040', loop:'loop1', code:'040', agent:'强模型 / Claude Code 接手前', signal:'SPIKES', signalClass:'pass', title:'040 三类验证桩：A 可行性 / B 反证 / C 集成', desc:'单个“最危险假设”不够。040 在一个文件里完成三段 Spike：可行性、反证、集成，并明确哪些临时代码/假设不得带入 Loop 2。', action:'最小验证与执行约束封包', artifact:'docs/dev/spec/040-验证桩结论.md', review:'交接：Spike A/B/C 结果、进入 Loop2 必须保留的约束、不得继承的临时代码。Spike 失败则回 035/020。', next:'Claude Code 仓库探索 + 实现调研', state:1, evidence:['L1-E040-A','L1-E040-C'], prompt:'基于 035 SELECTED，输出 040 验证桩结论。\n必须包含 Spike A 可行性、Spike B 反证、Spike C 集成；写清 PASS/FAIL/N/A、证据 ID、不得继承的临时代码/假设。'},
+      {id:'L2-CCR', loop:'loop2', code:'CC-R', agent:'Claude Code', signal:'RESEARCH', signalClass:'draft', title:'Claude Code 仓库探索 + 联网实现调研 + skill 小测', desc:'Loop2 从 040 接手，回链读取 010-035。Claude Code 做仓库探索、实现级联网调研、skill 采用前小测，把选定路线落到当前仓库。', action:'实现级调研与仓库映射', artifact:'docs/dev/research/NNN-模块中文名-调研台账.md', review:'交接：当前仓库事实、API/版本证据、skill 审计/小测结果。与 035 冲突则回传，不暗改路线。', next:'INSTRUCTION LOAD CHECK', state:2, evidence:['CC-R001','SKILL-TEST'], prompt:'你是 Claude Code 规划审查官。读取 040 并回链 010/012/015/020/030/035。\n做仓库探索、联网实现调研、skill 采用前小测，输出 NNN-模块中文名-调研台账.md。\n不做主要实现。'},
+      {id:'L2-LOAD', loop:'loop2', code:'LOAD', agent:'Claude Code', signal:'HARD GATE', signalClass:'risk', title:'INSTRUCTION LOAD CHECK：确认权威指令真的加载', desc:'检查本地权威文件、AGENTS/CLAUDE/Codex 指令、override 与 32KiB 静默截断风险，防止“以为读过，其实没读到”。', action:'指令加载核查', artifact:'docs/dev/research/NNN-模块中文名-调研台账.md#instruction-load-check', review:'交接：已加载文件、哈希/行数/截断风险、缺失项。缺失则 BLOCKED。', next:'draft plan + Test Oracle + PLAN AUDIT', state:2, evidence:['CC-R-LOAD','AUTH-FILES'], prompt:'执行 INSTRUCTION LOAD CHECK：列出已读取的权威文件、行数/哈希/截断风险、override 状态。\n任何缺失或冲突必须 BLOCKED，不得继续写 plan。'},
+      {id:'L2-PLAN', loop:'loop2', code:'PLAN', agent:'Claude Code', signal:'DRAFT', signalClass:'draft', title:'draft plan + Test Oracle + PLAN AUDIT', desc:'Claude Code 把 040 约束转成可执行 plan：T1/T2、允许修改文件清单、Test Oracle、回滚、外部写边界。PLAN AUDIT 通过后交 G2。', action:'制定可执行计划与验收锚点', artifact:'docs/dev/plans/NNN-模块中文名-plan.md', review:'交接：文件清单、任务顺序、测试路径、回滚方式、不可改边界。没有 Test Oracle 不得 approved。', next:'G2 人类 approved', state:2, evidence:['CC-R-PLAN','TEST-ORACLE'], prompt:'基于 010-040 与调研台账，写 draft plan：允许修改的文件、任务顺序、Test Oracle、回滚、外部写边界。\n执行 PLAN AUDIT；没有可判定验收锚点不得 approved。'},
+      {id:'L2-G2', loop:'loop2', code:'G2', agent:'人类', signal:'APPROVED', signalClass:'pass', title:'G2 执行门：approved 才能执行', desc:'G2 只批准这份计划能否安全执行，不重新批准方向。人类检查 PLAN AUDIT、Test Oracle、资源隔离、外部写与回滚。', action:'批准执行计划', artifact:'docs/dev/plans/NNN-模块中文名-plan.md#approved', review:'交接：approved plan、授权边界、外部写许可/禁止项。避免把 G1/G2 混成“看着行就开干”。', next:'WORKTREE CHECK', state:2, evidence:['G2-APPROVED','PLAN-AUDIT-PASS'], prompt:'按 G2 执行门审查 plan：PLAN AUDIT 是否 PASS、Test Oracle 是否齐备、外部写是否列清、回滚是否可执行、资源隔离是否明确。\n只批准“怎么做”，不重开 G1 方向讨论。'},
+      {id:'L2-WORKTREE', loop:'loop2', code:'WORKTREE', agent:'Claude Code / Codex', signal:'HARD GATE', signalClass:'risk', title:'WORKTREE CHECK：文件与资源隔离硬门禁', desc:'worktree 只隔离文件，因此还要检查数据库、环境变量、端口、服务、外部资源。通过后 Codex 才能执行。', action:'执行前隔离检查', artifact:'docs/dev/plans/NNN-模块中文名-plan.md#worktree-check', review:'交接：分支/工作区状态、DB/.env/端口/服务隔离、回滚点。脏工作区或未授权外部写则停止。', next:'Codex 执行前独立复核 + 实现 + 测试', state:2, evidence:['WT-CHECK','RESOURCE-ISOLATION'], prompt:'执行 WORKTREE CHECK：检查 git 工作区、分支/worktree、DB、.env、端口、服务、外部资源和回滚点。\n任何未隔离资源或未授权外部写都必须 BLOCKED。'},
+      {id:'L2-CODEX', loop:'loop2', code:'CODEX', agent:'Codex', signal:'IMPLEMENTED', signalClass:'draft', title:'Codex 联网复核 + 隔离实现 + 测试', desc:'Codex 先独立联网复核 approved plan 在当下是否仍正确、精确 API 怎么写。通过后仅修改 allowed files，运行 Test Oracle，记录 diff/命令/截图。', action:'按 approved plan 有界实现', artifact:'计划内源码/文档 + diff + test output', review:'交接：实现 diff、测试结果、CX-R 证据、冲突/异常。证据与 plan 冲突则 RESEARCH CONFLICT 停机。', next:'Codex 同号过程复盘', state:3, evidence:['CX-R001','CX-TEST'], prompt:'你是 Codex 执行员。\n先独立联网复核 approved plan 的精确实现细节；通过后只改 allowed files。\n运行 Test Oracle，记录 diff、命令输出、截图。若证据与计划冲突，停止并输出 RESEARCH CONFLICT。'},
+      {id:'L2-RETRO', loop:'loop2', code:'RETRO', agent:'Codex', signal:'RETRO', signalClass:'draft', title:'Codex 同号复盘：每个 Tn 后记录过程', desc:'Codex 不只交 diff，还要写复盘：做了什么、改了哪些文件、测试结果、剩余风险、与计划差异、证据 ID。状态最多 implemented。', action:'输出过程复盘报告', artifact:'docs/dev/retrospectives/NNN-模块中文名-复盘.md', review:'交接：完成内容、问题与解决过程、Test Oracle 结果、剩余风险。没有复盘，终检无法新鲜复核。', next:'Claude Code 终检', state:3, evidence:['CX-RETRO','CX-DIFF-LINK'], prompt:'写 Codex 复盘报告：完成了什么、修改了哪些文件、遇到的问题、Test Oracle 结果、剩余风险、证据 ID。\n不要把 implemented 写成 verified。'},
+      {id:'L2-REVIEW', loop:'loop2', code:'CC-V', agent:'Claude Code', signal:'PASS', signalClass:'pass', title:'Claude Code 新鲜上下文终检 + 联网反证搜索', desc:'Claude Code 重新读取 plan/diff/test/retro，并联网查新鲜反例。通过后只能形成 G3 candidate；最终 verified 由人类完成。', action:'终检 diff、测试、复盘与反证', artifact:'docs/dev/reviews/NNN-模块中文名-终检.md', review:'交接：PASS/RISK/BLOCKER、未决风险、是否可提交 G3。发现缺陷则回 Codex 或修订 plan。', next:'G3 人类验收门', state:3, evidence:['CC-V001','G3-CANDIDATE'], prompt:'你是 Claude Code 终检者。重新读取 approved plan、diff、测试输出、复盘，并联网做反证搜索。\n输出 PASS/RISK/BLOCKER；PASS 后只标 G3 candidate，不得标 verified。'},
+      {id:'L2-G3', loop:'loop2', code:'G3', agent:'人类', signal:'VERIFIED', signalClass:'pass', title:'G3 验收门：verified 后才算完成', desc:'人类基于 CC-V 终检、新鲜证据、Test Oracle 与实际体验做最终验收。通过后状态从 implemented/G3 candidate 变为 verified，并可进入下一轮 010。', action:'最终验收与下一轮入口', artifact:'docs/dev/reviews/NNN-模块中文名-终检.md#G3', review:'交接：验收结论、未做事项、下一轮 010。需求变化则开启新一轮 Loop 1，不在旧 plan 暗改。', next:'下一轮 010 或结束', state:4, evidence:['G3-VERIFIED','NEXT-010'], prompt:'按 G3 验收门检查：新鲜证据是否通过、Test Oracle 是否满足、CC-V 是否无未决反证、实际体验是否符合 010。\n通过才标 verified；需求变化则开启下一轮 010。'}
     ];
     let active = 0;
     let round = 1;
@@ -363,7 +382,7 @@
       const is = steps[active].id === s.id;
       return '<button class="node '+(is?'active pulse':'')+'" data-id="'+s.id+'" data-agent="'+s.agent+'" type="button"><span class="agent-dot"></span><small>'+s.code+' · '+s.agent+'</small><strong>'+s.title.replace(s.agent + ' ', '')+'</strong><span>'+s.action+' → '+s.artifact+'</span></button>';
     }
-    function classForAgent(agent){ return agent === 'Claude' ? 'claude' : agent === 'Codex' ? 'codex' : ''; }
+    function classForAgent(agent){ return agent.includes('Claude') ? 'claude' : agent.includes('Codex') ? 'codex' : ''; }
     function setActive(i){
       if (i < 0) i = steps.length - 1;
       if (i >= steps.length) i = 0;
@@ -389,17 +408,18 @@
       window.__researchLoopState = {active, round, id:s.id, agent:s.agent, signal:s.signal};
     }
     function renderState(state){
-      const labels = ['draft','reviewed','implemented','G3 candidate'];
+      const labels = ['draft','reviewed','planned','approved','implemented','G3 candidate','verified'];
       $('stateChain').innerHTML = labels.map((label, idx) => '<span class="'+(idx < state ? 'done' : idx === state ? 'active' : '')+'">'+label+'</span>').join('');
     }
     function renderEvidence(s){
       $('evidenceList').innerHTML = s.evidence.map((id, idx) => '<div class="evidence-item"><span class="evidence-id">'+id+'</span><p>'+evidenceText(s, idx)+'</p><span class="grade">A</span></div>').join('');
     }
     function evidenceText(s, idx){
-      if (s.loop === 'loop1' && s.agent === 'Claude') return idx === 0 ? '独立审查意见已经绑定到具体 artifact。' : 'BLOCKER/RISK/PASS 可追踪到修改建议。';
-      if (s.loop === 'loop1') return idx === 0 ? 'GPT-Pro 输出的方案草案或修复版。' : '边界、Test Oracle 或路线修复证据。';
-      if (s.agent === 'Codex') return idx === 0 ? '执行 diff、测试输出或截图证据。' : '复盘报告中的问题与解决过程。';
-      return idx === 0 ? 'Claude Plan 或终检报告。' : 'G2/G3 候选与验收前证据。';
+      if (s.loop === 'loop1' && s.agent.includes('Claude')) return idx === 0 ? 'Loop 1 独立证伪证据，绑定到 030/040 交接物。' : 'BLOCKER/RISK/PASS 可追踪到修复建议与路线裁决。';
+      if (s.loop === 'loop1') return idx === 0 ? 'Loop 1 方案、证据或路线产物，必须回链到 010。' : '用于下一步评审/裁决的 L1-E 证据。';
+      if (s.agent.includes('Codex')) return idx === 0 ? 'Codex 执行证据：diff、测试输出、截图或 CX-R。' : '复盘报告中的问题、解决过程与剩余风险。';
+      if (s.agent.includes('人类')) return idx === 0 ? '人类门禁证据：区分 G1/G2/G3 的不同决策。' : '只批准当前门禁，不替代后续验收。';
+      return idx === 0 ? 'Claude Code 规划/终检证据：调研台账、plan、CC-V。' : '同号交付链证据，回链到 010-040。';
     }
     function renderPrompt(s){
       $('promptLabel').textContent = s.agent + ' · ' + s.action + ' 提示词';
@@ -422,8 +442,33 @@
       const task = $('taskInput').value.trim() || '未命名任务';
       const risk = $('riskSelect').value;
       const scope = $('scopeSelect').value;
-      const route = risk === 'high' || scope === 'release' ? '重型轨道：完整双 Loop + G2/G3' : risk === 'medium' || scope === 'multi' ? '标准轨道：Loop 1 审查 + Loop 2 执行复核' : '轻型轨道：最小审查 + 快速验证';
-      $('packetOutput').textContent = ['# 010 输入包 / ResearchLoop V4.1','', '任务：', task, '', '推荐路线：' + route, '', 'Loop 1 输入：', '- 由 GPT-Pro 生成问题定义与候选方案', '- 由 Claude 独立检验并给出修改意见', '- GPT-Pro 根据意见修复，直到 Claude PASS', '', 'Loop 2 输入：', '- Claude 给出可执行 Plan', '- Codex 执行、测试、复盘', '- Claude 检验 diff、测试与复盘', '', '停止条件：', '- 出现未授权外部写入、隐私风险、Test Oracle 缺失或 Plan 与现实冲突时停止。'].join('\n');
+      const route = risk === 'high' || scope === 'release' ? '重型轨道：012 必做，040 A/B/C 三类 Spike 全做，G1/G2/G3 全保留' : risk === 'medium' || scope === 'multi' ? '标准轨道：完整 Loop 1 + Loop 2，012 可选但建议保留' : '轻型轨道：可跳过 012 与部分 Spike，但出现不确定性立即升级';
+      $('packetOutput').textContent = [
+        '# ResearchLoop V4 · 010 输入包','',
+        '任务：', task,'',
+        '推荐轨道：' + route,'',
+        'Loop 1 必交文档：',
+        '- 010-问题定义.md：目标/非目标/验收/FROZEN 确认',
+        '- 012-难题风险地图.md：未知项/升级条件（重型必做）',
+        '- 015-调研基线与经验清单.md：L1-E 证据 + A/B/C/D 分级',
+        '- 020-候选路线.md：R1/R2/R3 中性路线',
+        '- 030-独立对抗评审.md：Claude BLOCKER/RISK/PASS + 校准表',
+        '- 035-路线裁决.md：SELECTED + 模块分解 + G1 第二道',
+        '- 040-验证桩结论.md：Spike A/B/C + 执行约束','',
+        'Loop 2 必交链：',
+        '- research/NNN-模块-调研台账.md：CC-R + skill 小测',
+        '- plans/NNN-模块-plan.md：draft plan + Test Oracle + PLAN AUDIT + G2 approved',
+        '- WORKTREE CHECK：文件/DB/.env/端口/服务隔离',
+        '- Codex diff + test output + CX-R 执行证据',
+        '- retrospectives/NNN-模块-复盘.md：implemented 复盘',
+        '- reviews/NNN-模块-终检.md：CC-V + G3 candidate','',
+        '停止/回环条件：',
+        '- 目标或验收变化：回 010',
+        '- 证据不足或路线冲突：回 015/020/030',
+        '- Spike 失败：回 035/020',
+        '- plan 与现实冲突：Codex 输出 RESEARCH CONFLICT 并回 Claude Code',
+        '- 用户验收不通过或需求变化：回 G3 或开启下一轮 010'
+      ].join('\n');
     }
     document.addEventListener('DOMContentLoaded', () => {
       renderNodes(); setActive(0); generatePacket();
@@ -439,3 +484,4 @@
   </script>
 </body>
 </html>
+
